@@ -2,7 +2,7 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
+import { faCameraRetro, faTerminal } from '@fortawesome/free-solid-svg-icons';
 import {
   faLinkedin,
   faInstagram,
@@ -17,7 +17,7 @@ import App from './App.vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-library.add(faCameraRetro, faLinkedin, faInstagram, faMedium, faDev, faCopyright);
+library.add(faCameraRetro, faLinkedin, faInstagram, faMedium, faDev, faCopyright, faTerminal);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
