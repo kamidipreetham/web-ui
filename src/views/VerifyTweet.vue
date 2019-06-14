@@ -60,7 +60,7 @@
       <b-col>
       <file-upload
           class="btn btn-light"
-          post-action="http://localhost:8000/api/v1/verify"
+          post-action="https://preethamkamidi.com/verifytweet/api/v1/verify"
           extensions="jpg,jpeg,png"
           accept="image/png,image/jpeg"
           :data="{social: 'twitter', type: 'image'}"
