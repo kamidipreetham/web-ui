@@ -19,6 +19,21 @@ export default new Router({
       component: () => import('./views/Projects.vue'),
     },
     {
+      path: '/projects/memance',
+      name: 'memance',
+      component: () => import('./views/Memance.vue'),
+    },
+    {
+      path: '/projects/verify',
+      name: 'verify',
+      component: () => import('./views/VerifyTweet.vue'),
+    },
+    {
+      path: '/projects/nwtest',
+      name: 'nwtest',
+      component: () => import('./views/Nwtest.vue'),
+    },
+    {
       path: '/photography',
       name: 'photography',
       component: () => import('./views/Photography.vue'),

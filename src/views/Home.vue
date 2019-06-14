@@ -36,6 +36,9 @@
           <b-nav-item href="https://www.linkedin.com/in/pheonix007" class="icon-container">
             <font-awesome-icon :icon="['fab', 'linkedin']" class="fa-lg"/>
           </b-nav-item>
+          <b-nav-item href="https://www.github.com/kamidipreetham" class="icon-container">
+            <font-awesome-icon :icon="['fab', 'github']" class="fa-lg"/>
+          </b-nav-item>
         </b-navbar-nav>
       </b-navbar>
   </b-container>
@@ -71,12 +74,6 @@ export default {
       ease: Back.easeInOut,
       autoAlpha: 0,
     }, 'projects');
-    // timeline.staggerFrom('.fa-lg', 2, {
-    //   x: 100,
-    //   autoAlpha: 0,
-    //   ease: Elastic.easeOut,
-    //   force3D: true,
-    // });
     timeline.from(verticalBar, 1, {
       ease: Back.easeInOut,
       autoAlpha: 0,
