@@ -49,10 +49,10 @@
         <li v-for="file in files" :key="file.id">
           <span>{{file.name}}</span>
           <span>&nbsp;</span>
-          <span v-if="file.error">Status:{{file.error}}</span>
-          <span v-else-if="file.success">Status:Success</span>
-          <span v-else-if="file.active">Status:Active</span>
-          <span v-else-if="file.active">Status:Active</span>
+          <span v-if="file.error">Status: {{file.error}}</span>
+          <span v-else-if="file.success">Status: Success</span>
+          <span v-else-if="file.active">Status: Active</span>
+          <span v-else-if="file.active">Status: Active</span>
           <span v-else></span>
         </li>
       </ul>
@@ -60,7 +60,7 @@
       <b-col>
       <file-upload
           class="btn btn-light"
-          post-action="https://preethamkamidi.com/verifytweet/api/v1/verify"
+          post-action="http://localhost:8000/api/v1/verify"
           extensions="jpg,jpeg,png"
           accept="image/png,image/jpeg"
           :data="{social: 'twitter', type: 'image'}"
@@ -86,6 +86,16 @@
         </button>
         </b-col>
     </b-row>
+    <b-row>
+      <b-col>
+        <ul>
+        <li v-for="file in files" :key="file.id">
+          <span v-if="file.success"><b>{{displayStatus(file.response)}}</b></span>
+          <span v-else></span>
+        </li>
+        </ul>
+      </b-col>
+    </b-row>
 </b-container>
 </template>
 
@@ -110,11 +120,21 @@ export default {
   components: {
     FileUpload,
   },
-
   data() {
     return {
       files: [],
     };
+  },
+  methods: {
+    displayStatus(data) {
+      if (!data) {
+        return 'Something\' not right! Please try again';
+      }
+      if (data.result !== true) {
+        return 'Fake Tweet!';
+      }
+      return 'Verified Tweet!';
+    },
   },
 };
 </script>
