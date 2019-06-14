@@ -38,6 +38,7 @@
               screenshots and verify if the user actually tweeted or not.
               A combination of Image processing, Natural language processing
               as well as Twitter Search API makes this possible.
+              Due to Twitter API rate limits, currently only tweets from last 7 days can be verified.
               </p>
               </b-col>
             </b-row>
