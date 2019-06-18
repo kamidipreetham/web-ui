@@ -46,55 +46,17 @@
     </b-row>
     <b-row class="upload">
       <b-col>
-      <ul>
-        <li v-for="file in files" :key="file.id">
-          <span>{{file.name}}</span>
-          <span>&nbsp;</span>
-          <span v-if="file.error">Status: {{file.error}}</span>
-          <span v-else-if="file.success">Status: Success</span>
-          <span v-else-if="file.active">Status: Active</span>
-          <span v-else-if="file.active">Status: Active</span>
-          <span v-else></span>
-        </li>
-      </ul>
       </b-col>
       <b-col>
-      <file-upload
-          class="btn btn-light"
-          post-action="https://preethamkamidi.com/verifytweet/api/v1/verify"
-          extensions="jpg,jpeg,png"
-          accept="image/png,image/jpeg"
-          :data="{social: 'twitter', type: 'image'}"
-          :size="1024 * 1024 * 2"
-          v-model="files"
-          name="data"
-          :drop="true"
-          ref="upload">
-          <i class="fa fa-plus"></i>
-          Select file
-        </file-upload>
+        <input type="file" @change="onFileChange">
+        <b-img :src="image" id="preview"></b-img>
+          <button @click="removeImage">Remove image</button>
         </b-col>
         <b-col>
-        <button type="button" class="btn btn-success"
-          v-if="!$refs.upload || !$refs.upload.active" @click.prevent="$refs.upload.active = true">
-          <i class="fa fa-arrow-up" aria-hidden="true"></i>
-          Start Upload
-        </button>
-        <button type="button" class="btn btn-danger"
-          v-else @click.prevent="$refs.upload.active = false">
-          <i class="fa fa-stop" aria-hidden="true"></i>
-          Stop Upload
-        </button>
         </b-col>
     </b-row>
     <b-row>
       <b-col>
-        <ul>
-        <li v-for="file in files" :key="file.id">
-          <span v-if="file.success"><b>{{displayStatus(file.response)}}</b></span>
-          <span v-else></span>
-        </li>
-        </ul>
       </b-col>
     </b-row>
 </b-container>
@@ -112,18 +74,23 @@ ul {
 .upload {
   margin-top: 2rem;
 }
+
+#preview{
+  width: 30%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
+}
 </style>
 
 <script>
-import FileUpload from 'vue-upload-component';
 
 export default {
   components: {
-    FileUpload,
   },
   data() {
     return {
-      files: [],
+      image: '',
     };
   },
   methods: {
@@ -135,6 +102,24 @@ export default {
         return 'Fake Tweet!';
       }
       return 'Verified Tweet!';
+    },
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      let image = new Image();
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    removeImage() {
+      this.image = '';
     },
   },
 };

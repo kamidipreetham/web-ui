@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import VueUploadComponent from 'vue-upload-component';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCameraRetro, faTerminal } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +21,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 library.add(faCameraRetro, faLinkedin,
   faInstagram, faMedium, faDev, faCopyright, faTerminal, faGithub);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-Vue.component('file-upload', VueUploadComponent);
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 
