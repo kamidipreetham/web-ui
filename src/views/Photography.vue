@@ -7,7 +7,7 @@
       </h2>
     </b-col>
     </b-row>
-    <b-row> 
+    <b-row>
       <b-col cols="4" v-for="photoUrl in photos" v-bind:key="photoUrl" class="image-container">
       <b-img-lazy :src="photoUrl" rounded fluid></b-img-lazy>
       </b-col>
@@ -27,7 +27,6 @@ export default {
   },
   mounted() {
     const albumBucketName = 'images-showcase';
-    let photos = [];
     AWS.config.region = 'us-east-1';
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
       IdentityPoolId: 'us-east-1:b7d30d42-4f41-49db-8c54-26a389fb0930',
@@ -38,11 +37,12 @@ export default {
     });
     s3.listObjects((err, data) => {
       if (err) {
-        return alert('There was an error viewing photos: ' + err.message);
+        console.error(`There was an error viewing photos: ${err.message}`);
+        return;
       }
       const href = 'https://s3.amazonaws.com/';
-      const bucketUrl = href + albumBucketName + '/';
-      this.photos = data.Contents.map(function (photo) {
+      const bucketUrl = `${href}${albumBucketName}/`;
+      this.photos = data.Contents.map((photo) => {
         const photoKey = photo.Key;
         const photoUrl = bucketUrl + encodeURIComponent(photoKey);
         return photoUrl;
