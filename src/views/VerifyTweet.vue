@@ -138,6 +138,8 @@ export default {
       commentsCount: 0,
       datestamp: 0,
       tweetLink: '',
+      progressCounter: 0,
+      recurringFunc: null,
       ranges: [
         { divider: 1e9, suffix: 'G' },
         { divider: 1e6, suffix: 'M' },
@@ -160,17 +162,9 @@ export default {
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent;
-          let progressCounter = 0;
           this.requestInProgress = true;
           this.currValue = Math.round((loaded * 100) / total);
-          this.intervalid1 = setInterval(() => {
-            this.requestStatus = this.statusList[progressCounter];
-            progressCounter += 1;
-            if (progressCounter >= this.statusList.length) {
-              progressCounter = 0;
-              clearInterval(this.intervalid1);
-            }
-          }, 3000);
+          this.recurringFunc = setInterval(this.changeText, 3000);
         },
       };
       return axios.post(`${process.env.VUE_APP_VERIFY_TWEET_HOST}/${process.env.VUE_APP_VERIFY_TWEET_APIVER}${process.env.VUE_APP_VERIFY_TWEET_CONTEXT}`, formData, options)
@@ -223,6 +217,14 @@ export default {
         }
       }
       return n.toString();
+    },
+    changeText() {
+      this.requestStatus = this.statusList[this.progressCounter];
+      this.progressCounter += 1;
+      if (this.progressCounter >= this.statusList.length) {
+        this.progressCounter = 0;
+        clearInterval(this.recurringFunc);
+      }
     },
   },
 };
