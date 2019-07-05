@@ -154,6 +154,14 @@ export default {
       this.requestInProgress = false;
       this.requestCompleted = false;
       this.gotResult = false;
+      this.username = '';
+      this.profileName = '';
+      this.datestamp = '';
+      this.tweet = '';
+      this.retweetCount = 0;
+      this.likesCount = 0;
+      this.commentsCount = 0;
+      this.tweetLink = '';
       if (!this.file) {
         return console.error('Please select a file first');
       }
@@ -181,7 +189,7 @@ export default {
             return;
           }
           const resultStatus = responseData.status;
-          const tweetObj = responseData.result;
+          let tweetObj = responseData.result;
           switch (resultStatus) {
             case 0:
               this.gotResult = true;
