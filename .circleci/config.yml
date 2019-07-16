@@ -32,8 +32,12 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: sudo apt-get install python-pip && sudo pip install awscli
-      - run: awscli sync /tmp/web-ui/dist s3://website-showcase --delete
+      - run:
+          name: Deploy to S3
+          command: |
+            sudo apt-get install python-pip && 
+            sudo pip install awscli && 
+            awscli sync /tmp/web-ui/dist s3://website-showcase --delete
 
 workflows:
   version: 2
