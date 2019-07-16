@@ -37,7 +37,7 @@ jobs:
           command: |
             sudo apt-get install python-pip && 
             sudo pip install awscli && 
-            aws s3 sync ~/project/dist s3://website-showcase --delete
+            aws s3 sync ~/project/dist s3://website-showcase --delete --acl public-read
 
 workflows:
   version: 2
