@@ -37,7 +37,7 @@ jobs:
           command: |
             sudo apt-get install python-pip && 
             sudo pip install awscli && 
-            awscli sync /tmp/web-ui/dist s3://website-showcase --delete
+            aws sync /tmp/web-ui/dist s3://website-showcase --delete
 
 workflows:
   version: 2
