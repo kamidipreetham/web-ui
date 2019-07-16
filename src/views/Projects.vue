@@ -28,7 +28,7 @@
             Make sure if it's a meme or not!
           </b-card-text>
           <router-link :to="{ name: 'verify' }">
-            <b-button variant="light">View Demo</b-button>
+            <b-button variant="light">Details</b-button>
           </router-link>
         </b-card>
       </b-col>
