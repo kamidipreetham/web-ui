@@ -8,8 +8,10 @@
     </b-col>
     </b-row>
     <b-row>
-      <b-col cols="4" v-for="photoUrl in photos" v-bind:key="photoUrl" class="image-container">
-      <b-img-lazy :src="photoUrl" rounded fluid></b-img-lazy>
+      <b-col cols="2" v-for="photoUrl in thumbnails" v-bind:key="photoUrl" class="image-container">
+        <div @click="showImageModal(photoUrl)">
+        <b-img :src="photoUrl" rounded fluid class="image"></b-img>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -22,7 +24,8 @@ export default {
   name: 'photography',
   data() {
     return {
-      photos: [],
+      thumbnails: [],
+      s3: null,
     };
   },
   mounted() {
@@ -35,19 +38,47 @@ export default {
       apiVersion: '2006-03-01',
       params: { Bucket: albumBucketName },
     });
-    s3.listObjects((err, data) => {
+    this.s3 = s3;
+    const thumbnailKey = `${encodeURIComponent('thumbnails')}/`;
+    s3.listObjectsV2({ Prefix: thumbnailKey }, (err, data) => {
       if (err) {
         console.error(`There was an error viewing photos: ${err.message}`);
         return;
       }
       const href = 'https://s3.amazonaws.com/';
       const bucketUrl = `${href}${albumBucketName}/`;
-      this.photos = data.Contents.map((photo) => {
+      this.thumbnails = data.Contents.map((photo) => {
         const photoKey = photo.Key;
+        if (!photoKey.includes('.jpg')) {
+          return '';
+        }
         const photoUrl = bucketUrl + encodeURIComponent(photoKey);
         return photoUrl;
-      });
+      }).filter(url => url !== '');
     });
+  },
+  methods: {
+    showImageModal(photoURL) {
+      const originalphotoURL = photoURL.replace('thumbnails', 'originals');
+      const h = this.$createElement;
+      const messageVNode = h('div', { class: ['image-container'] }, [
+        h('b-img', {
+          props: {
+            src: originalphotoURL,
+            thumbnail: true,
+            center: true,
+          },
+        }),
+      ]);
+      this.$bvModal.msgBoxOk([messageVNode], {
+        buttonSize: 'sm',
+        centered: true,
+        size: 'lg',
+        okVariant: 'info',
+        headerClass: 'p-2 border-bottom-0',
+        footerClass: 'p-2 border-top-0',
+      });
+    },
   },
 };
 </script>
@@ -62,5 +93,8 @@ export default {
 }
 .image-container {
   padding: 1rem;
+}
+.image {
+  cursor: pointer;
 }
 </style>
